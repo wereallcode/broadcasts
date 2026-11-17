@@ -16,8 +16,8 @@ const WORKSPACE = {
     },
   ],
   playlists: [
-    { id: 'default', order: ['cnn-turk', 'custom-original-id'], hidden: ['krt-tv'] },
-    { id: 'personal', name: 'Morning', order: ['custom-original-id', 'cnn-turk'] },
+    { id: 'default', order: ['bravo', 'custom-original-id'], hidden: ['echo'] },
+    { id: 'personal', name: 'Morning', order: ['custom-original-id', 'bravo'] },
   ],
 };
 const PLAYLIST = {
@@ -67,7 +67,7 @@ for (const mobile of [true, false]) {
       const exported = JSON.parse(buffer);
       expect(exported.workspace).toBeUndefined();
       expect(exported.playlist.name).toBe('Morning');
-      expect(exported.playlist.streams.map((s) => s.label)).toEqual(['Personal', 'CNN Türk']);
+      expect(exported.playlist.streams.map((s) => s.label)).toEqual(['Personal', 'Bravo']);
       expect(await readWorkspace(sourcePage)).toEqual(WORKSPACE);
       await expect(
         sourcePage.getByRole('button', { name: 'Playlist actions', exact: true })
@@ -106,7 +106,7 @@ for (const mobile of [true, false]) {
       await expect(page.getByRole('dialog', { name: 'Import', exact: true })).toHaveCount(0);
       await expect(page.getByLabel('Playlist', { exact: true })).toBeFocused();
       await expect(page.getByLabel('Playlist', { exact: true })).toHaveValue(/^playlist-/);
-      await expect(page.locator('.stream-item-name')).toHaveText(['Personal', 'CNN Türk']);
+      await expect(page.locator('.stream-item-name')).toHaveText(['Personal', 'Bravo']);
       const imported = await readWorkspace(page);
       expect(imported.layout).toBe(before.layout);
       expect(imported.playlists.slice(0, before.playlists.length)).toEqual(before.playlists);
@@ -115,7 +115,7 @@ for (const mobile of [true, false]) {
       expect(await readWorkspace(page)).toEqual(imported);
       await page.getByRole('button', { name: 'Toggle menu' }).click();
       await page.getByLabel('Playlist', { exact: true }).selectOption('default');
-      await expect(page.getByRole('button', { name: 'Remove KRT TV', exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Remove Echo', exact: true })).toBeVisible();
       await openImport(page);
       await file.setInputFiles({ name: 'again.json', mimeType: 'application/json', buffer });
       await submit.click();

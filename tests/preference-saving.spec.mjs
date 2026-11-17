@@ -106,12 +106,12 @@ test('a later successful change clears the warning without a manual retry', asyn
     await page.goto(server.url);
     await blockSaving(page);
     await page.getByRole('button', { name: 'Toggle menu' }).click();
-    await page.getByRole('button', { name: 'Remove CNN Türk', exact: true }).click();
+    await page.getByRole('button', { name: 'Remove Bravo', exact: true }).click();
     await expect(page.getByRole('alert')).toBeVisible();
     await allowSaving(page);
-    await page.getByRole('button', { name: 'Remove A Haber', exact: true }).click();
+    await page.getByRole('button', { name: 'Remove Alpha', exact: true }).click();
     await expect(page.getByRole('alert')).toHaveCount(0);
-    expect((await readSaved(page)).playlists[0].hidden).toEqual(['cnn-turk', 'a-haber']);
+    expect((await readSaved(page)).playlists[0].hidden).toEqual(['bravo', 'alpha']);
   } finally {
     await context.close();
     await server.close();

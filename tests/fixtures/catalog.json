@@ -1,0 +1,95 @@
+{
+  "name": "Test Streams",
+  "sources": [
+    {
+      "id": "alpha",
+      "label": "Alpha",
+      "channelUrl": "https://www.youtube.com/@alpha",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "alphaVideo1"
+      }
+    },
+    {
+      "id": "bravo",
+      "label": "Bravo",
+      "channelUrl": "https://www.youtube.com/@bravo",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "bravoVideo1"
+      }
+    },
+    {
+      "id": "charlie",
+      "label": "Charlie",
+      "channelUrl": "https://www.youtube.com/@charlie",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "charlieVid1"
+      }
+    },
+    {
+      "id": "delta",
+      "label": "Delta",
+      "channelUrl": "https://www.youtube.com/@delta",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "deltaVideo1"
+      }
+    },
+    {
+      "id": "echo",
+      "label": "Echo",
+      "channelUrl": "https://www.youtube.com/@echo",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "echoVideo01"
+      }
+    },
+    {
+      "id": "foxtrot",
+      "label": "Foxtrot",
+      "channelUrl": "https://www.youtube.com/@foxtrot",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "foxtrotVid1"
+      }
+    },
+    {
+      "id": "golf",
+      "label": "Golf",
+      "channelUrl": "https://www.youtube.com/@golf",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "golfVideo01"
+      }
+    },
+    {
+      "id": "hotel",
+      "label": "Hotel",
+      "channelUrl": "https://www.youtube.com/@hotel",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "hotelVideo1"
+      }
+    },
+    {
+      "id": "india",
+      "label": "India",
+      "channelUrl": "https://www.youtube.com/@india",
+      "playback": {
+        "provider": "youtube",
+        "kind": "video",
+        "videoId": "indiaVideo1"
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import { createServer } from 'vite';
 
 const catalog = JSON.parse(
-  await readFile(new URL('../src/data/turkish-streams.json', import.meta.url))
+  await readFile(new URL('../tests/fixtures/catalog.json', import.meta.url))
 ).sources;
 const server = await createServer({
   server: { middlewareMode: true, ws: false },
@@ -41,7 +41,7 @@ try {
       },
     ],
     playlists: [
-      { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['krt-tv'] },
+      { id: 'default', order: ['bravo', 'custom-dQw4w9WgXcQ', 'alpha'], hidden: ['echo'] },
     ],
   };
   const ids = (workspace) => resolveActiveSources(workspace, catalog).map((source) => source.id);
@@ -65,9 +65,9 @@ try {
       copyCurrent: true,
     });
     assert.deepEqual(ids(next), ids(saved));
-    assert.ok(!ids(next).includes('krt-tv'));
+    assert.ok(!ids(next).includes('echo'));
     next = reorderActivePlaylist(next, [...ids(next)].reverse());
-    next = removeFromActivePlaylist(next, catalog, 'cnn-turk');
+    next = removeFromActivePlaylist(next, catalog, 'bravo');
     const personalOrder = ids(next);
     const defaultList = setActivePlaylist(next, 'default');
     assert.deepEqual(ids(defaultList), ids(saved));
@@ -97,9 +97,7 @@ try {
     );
     assert.deepEqual(createPlaylist(created, catalog, { id: 'list-one', name: 'Other' }), created);
     assert.ok(getPlaylistNameError('x'.repeat(61), []));
-    assert.ok(
-      getPlaylistNameError('turkish streams', [{ id: 'default', name: 'Turkish Streams' }])
-    );
+    assert.ok(getPlaylistNameError('test streams', [{ id: 'default', name: 'Test Streams' }]));
     assert.equal(getPlaylistNameError('Morning', created.playlists, 'list-one'), '');
   });
 
@@ -125,22 +123,22 @@ try {
   await test('browsing appends source references without changing source lists or copying videos twice', () => {
     const empty = createPlaylist(saved, catalog, { id: 'target', name: 'Target' });
     const next = addSourcesToActivePlaylist(empty, catalog, [
-      'cnn-turk',
+      'bravo',
       'custom-dQw4w9WgXcQ',
-      'cnn-turk',
+      'bravo',
       'missing',
     ]);
-    assert.deepEqual(ids(next), ['cnn-turk', 'custom-dQw4w9WgXcQ']);
+    assert.deepEqual(ids(next), ['bravo', 'custom-dQw4w9WgXcQ']);
     assert.deepEqual(next.playlists[0], saved.playlists[0]);
     assert.deepEqual(next.customSources, saved.customSources);
     assert.deepEqual(sanitizeWorkspace(JSON.parse(JSON.stringify(next)), catalog), next);
-    assert.equal(addSourcesToActivePlaylist(next, catalog, ['cnn-turk', 'missing']), next);
-    const cnn = catalog.find((source) => source.id === 'cnn-turk');
+    assert.equal(addSourcesToActivePlaylist(next, catalog, ['bravo', 'missing']), next);
+    const bravo = catalog.find((source) => source.id === 'bravo');
     const manuallyAdded = addCustomSource(empty, catalog, {
-      videoId: cnn.playback.videoId,
+      videoId: bravo.playback.videoId,
       label: 'Same video',
     });
-    assert.equal(addSourcesToActivePlaylist(manuallyAdded, catalog, ['cnn-turk']), manuallyAdded);
+    assert.equal(addSourcesToActivePlaylist(manuallyAdded, catalog, ['bravo']), manuallyAdded);
     const removedFromOrigin = removeFromActivePlaylist(
       setActivePlaylist(next, 'default'),
       catalog,
@@ -185,11 +183,11 @@ try {
     const other = addCustomSource(before, catalog, { videoId: 'abcdefghijk', label: 'Other' });
     const active = setActivePlaylist(other, 'default');
     for (const [sourceId, videoId] of [
-      ['cnn-turk', 'abcdefghijk'],
+      ['bravo', 'abcdefghijk'],
       ['missing', 'abcdefghijk'],
       ['custom-dQw4w9WgXcQ', 'bad'],
       ['custom-dQw4w9WgXcQ', 'abcdefghijk'],
-      ['custom-dQw4w9WgXcQ', catalog.find((source) => source.id === 'cnn-turk').playback.videoId],
+      ['custom-dQw4w9WgXcQ', catalog.find((source) => source.id === 'bravo').playback.videoId],
     ]) {
       assert.ok(getStreamEditError(active, catalog, sourceId, videoId));
       assert.equal(
@@ -206,8 +204,8 @@ try {
   });
 
   await test('browsing restores a hidden default stream without resetting preferences', () => {
-    const next = addSourcesToActivePlaylist(saved, catalog, ['krt-tv']);
-    assert.deepEqual(ids(next), [...ids(saved), 'krt-tv']);
+    const next = addSourcesToActivePlaylist(saved, catalog, ['echo']);
+    assert.deepEqual(ids(next), [...ids(saved), 'echo']);
     assert.deepEqual(next.playlists[0].hidden, []);
     assert.equal(next.layout, saved.layout);
     assert.deepEqual(next.customSources, saved.customSources);

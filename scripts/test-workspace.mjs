@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import { createServer } from 'vite';
 
 const catalog = JSON.parse(
-  await readFile(new URL('../src/data/turkish-streams.json', import.meta.url))
+  await readFile(new URL('../tests/fixtures/catalog.json', import.meta.url))
 ).sources;
 const server = await createServer({
   server: { middlewareMode: true, ws: false },
@@ -29,10 +29,10 @@ try {
     playlists: [
       {
         id: 'default',
-        order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'],
-        hidden: ['krt-tv'],
+        order: ['bravo', 'custom-dQw4w9WgXcQ', 'alpha'],
+        hidden: ['echo'],
       },
-      { id: 'personal', name: 'My List', order: ['custom-dQw4w9WgXcQ', 'cnn-turk'] },
+      { id: 'personal', name: 'My List', order: ['custom-dQw4w9WgXcQ', 'bravo'] },
     ],
   };
 
@@ -49,7 +49,7 @@ try {
 
   await test('a catalog video replacement keeps preferences and uses the new video', () => {
     const updatedCatalog = structuredClone(catalog);
-    updatedCatalog.find((source) => source.id === 'cnn-turk').playback.videoId = 'abcdefghijk';
+    updatedCatalog.find((source) => source.id === 'bravo').playback.videoId = 'abcdefghijk';
     const restored = sanitizeWorkspace(saved, updatedCatalog);
     const streams = resolveActiveSources(restored, updatedCatalog);
     assert.deepEqual(restored, saved);
@@ -58,7 +58,7 @@ try {
       saved.playlists[0].order
     );
     assert.equal(streams[0].playback.videoId, 'abcdefghijk');
-    assert.ok(!streams.some((source) => source.id === 'krt-tv'));
+    assert.ok(!streams.some((source) => source.id === 'echo'));
     assert.deepEqual(streams[1], saved.customSources[0]);
   });
 } finally {

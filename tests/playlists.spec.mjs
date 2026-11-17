@@ -13,9 +13,7 @@ const LEGACY = {
       playback: { provider: 'youtube', kind: 'video', videoId: 'dQw4w9WgXcQ' },
     },
   ],
-  playlists: [
-    { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['krt-tv'] },
-  ],
+  playlists: [{ id: 'default', order: ['bravo', 'custom-dQw4w9WgXcQ', 'alpha'], hidden: ['echo'] }],
 };
 
 for (const width of [390, 1280]) {
@@ -36,7 +34,7 @@ for (const width of [390, 1280]) {
       const selector = page.getByLabel('Playlist', { exact: true });
       const names = page.locator('.stream-item-name');
       await expect(selector).toHaveValue('default');
-      await expect(selector.locator('option')).toHaveText(['Turkish Streams', 'Create']);
+      await expect(selector.locator('option')).toHaveText(['Test Streams', 'Create']);
       await expect(names).toHaveCount(9);
       const original = await names.allTextContents();
       await expect(page.getByRole('button', { name: 'Rename', exact: true })).toHaveCount(0);
@@ -51,7 +49,7 @@ for (const width of [390, 1280]) {
       await expect(selector).toBeFocused();
       await expect(names).toHaveText(original);
       await expect(page.getByRole('button', { name: 'Reset', exact: true })).toHaveCount(0);
-      await page.getByRole('button', { name: 'Remove CNN Türk', exact: true }).click();
+      await page.getByRole('button', { name: 'Remove Bravo', exact: true }).click();
       await page.getByRole('button', { name: 'Playlist actions', exact: true }).click();
       await page.getByRole('button', { name: 'Rename', exact: true }).click();
       await page.getByLabel('Playlist name', { exact: true }).fill('Daily');
@@ -60,7 +58,7 @@ for (const width of [390, 1280]) {
       await page.reload();
       await page.getByRole('button', { name: 'Toggle menu' }).click();
       await expect(selector.locator('option:checked')).toHaveText('Daily');
-      await expect(names).toHaveText(original.filter((name) => name !== 'CNN Türk'));
+      await expect(names).toHaveText(original.filter((name) => name !== 'Bravo'));
 
       await selector.selectOption('__create__');
       await page.getByLabel('Playlist name', { exact: true }).fill('Focus');
@@ -89,7 +87,7 @@ for (const width of [390, 1280]) {
       await expect(selector).toHaveValue('default');
       await expect(names).toHaveText(original);
       await selector.selectOption({ label: 'Daily' });
-      await expect(names).toHaveText(original.filter((name) => name !== 'CNN Türk'));
+      await expect(names).toHaveText(original.filter((name) => name !== 'Bravo'));
       page.once('dialog', (dialog) => dialog.accept());
       await page.getByRole('button', { name: 'Playlist actions', exact: true }).click();
       await page.getByRole('button', { name: 'Delete', exact: true }).click();
@@ -121,7 +119,7 @@ test('list editor rejects ambiguous names and cancels without closing the menu',
     await expect(page.getByRole('button', { name: 'Create', exact: true })).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(input).toBeFocused();
-    await input.fill('turkish streams');
+    await input.fill('test streams');
     await page.getByRole('button', { name: 'Create', exact: true }).click();
     await expect(page.getByRole('alert')).toHaveText('A playlist with this name already exists.');
     await input.press('Escape');
@@ -152,15 +150,15 @@ test('settings contain default reset and stream entry without expanding the side
     const actions = page.getByRole('button', { name: 'Playlist actions', exact: true });
     await expect(page.getByLabel('YouTube URL', { exact: true })).toHaveCount(0);
     await expect(page.getByLabel('Playlist', { exact: true }).locator('hr')).toHaveCount(1);
-    await page.getByRole('button', { name: 'Remove CNN Türk', exact: true }).click();
+    await page.getByRole('button', { name: 'Remove Bravo', exact: true }).click();
     await actions.click();
     page.once('dialog', (dialog) => dialog.dismiss());
     await page.getByRole('button', { name: 'Reset', exact: true }).click();
-    await expect(page.getByRole('button', { name: 'Remove CNN Türk', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Remove Bravo', exact: true })).toHaveCount(0);
     await actions.click();
     page.once('dialog', (dialog) => dialog.accept());
     await page.getByRole('button', { name: 'Reset', exact: true }).click();
-    await expect(page.getByRole('button', { name: 'Remove CNN Türk', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Remove Bravo', exact: true })).toBeVisible();
     await actions.click();
     await page.getByRole('button', { name: 'Add Stream', exact: true }).click();
     const url = page.getByLabel('YouTube URL', { exact: true });
@@ -258,18 +256,18 @@ for (const width of [390, 1280]) {
       await browse();
       await expect(page.getByLabel('Source playlist')).toHaveCount(0);
       await expect(page.getByRole('button', { name: 'Add', exact: true })).toBeDisabled();
-      await expect(page.getByRole('checkbox', { name: 'CNN Türk', exact: true })).toBeFocused();
-      await page.getByRole('checkbox', { name: 'CNN Türk', exact: true }).check();
+      await expect(page.getByRole('checkbox', { name: 'Bravo', exact: true })).toBeFocused();
+      await page.getByRole('checkbox', { name: 'Bravo', exact: true }).check();
       await page.getByRole('button', { name: 'Cancel', exact: true }).click();
       await expect(names).toHaveCount(0);
       await browse();
-      await page.getByRole('checkbox', { name: 'CNN Türk', exact: true }).check();
+      await page.getByRole('checkbox', { name: 'Bravo', exact: true }).check();
       await page.getByRole('checkbox', { name: 'Personal', exact: true }).check();
       await page.getByRole('button', { name: 'Add (2)', exact: true }).click();
-      await expect(names).toHaveText(['CNN Türk', 'Personal']);
+      await expect(names).toHaveText(['Bravo', 'Personal']);
       await expect(selector).toBeFocused();
       await browse();
-      await expect(page.getByRole('checkbox', { name: 'CNN Türk', exact: true })).toBeDisabled();
+      await expect(page.getByRole('checkbox', { name: 'Bravo', exact: true })).toBeDisabled();
       await expect(page.getByRole('checkbox', { name: 'Personal', exact: true })).toBeChecked();
       await expect(page.getByText('Already added', { exact: true })).toHaveCount(2);
       await page.keyboard.press('Escape');
@@ -285,17 +283,17 @@ for (const width of [390, 1280]) {
       await expect(source).toBeFocused();
       await source.selectOption({ label: 'Morning' });
       await page.getByRole('checkbox', { name: 'Personal', exact: true }).check();
-      await source.selectOption({ label: 'Turkish Streams' });
+      await source.selectOption({ label: 'Test Streams' });
       await expect(page.getByRole('checkbox', { name: 'Personal', exact: true })).toBeChecked();
-      await page.getByRole('checkbox', { name: 'A Haber', exact: true }).check();
+      await page.getByRole('checkbox', { name: 'Alpha', exact: true }).check();
       await page.getByRole('button', { name: 'Add (2)', exact: true }).click();
-      await expect(names).toHaveText(['Personal', 'A Haber']);
+      await expect(names).toHaveText(['Personal', 'Alpha']);
       await page.reload();
       await page.getByRole('button', { name: 'Toggle menu' }).click();
       await expect(selector.locator('option:checked')).toHaveText('Evening');
-      await expect(names).toHaveText(['Personal', 'A Haber']);
+      await expect(names).toHaveText(['Personal', 'Alpha']);
       await selector.selectOption({ label: 'Morning' });
-      await expect(names).toHaveText(['CNN Türk', 'Personal']);
+      await expect(names).toHaveText(['Bravo', 'Personal']);
       await selector.selectOption('default');
       await expect(names).toHaveText(original);
       const persisted = await page.evaluate(() =>

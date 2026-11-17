@@ -15,8 +15,8 @@ const SAVED = {
     },
   ],
   playlists: [
-    { id: 'default', order: [PERSONAL_ID, 'cnn-turk'], hidden: ['krt-tv'] },
-    { id: 'personal', name: 'Morning', order: [PERSONAL_ID, 'cnn-turk'] },
+    { id: 'default', order: [PERSONAL_ID, 'bravo'], hidden: ['echo'] },
+    { id: 'personal', name: 'Morning', order: [PERSONAL_ID, 'bravo'] },
   ],
 };
 
@@ -43,7 +43,7 @@ for (const mobile of [true, false]) {
       await page.reload();
       await page.getByRole('button', { name: 'Toggle menu' }).click();
       const editor = page.getByRole('button', { name: 'Edit Personal', exact: true });
-      await expect(page.getByRole('button', { name: 'Edit CNN Türk', exact: true })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: 'Edit Bravo', exact: true })).toHaveCount(0);
       await editor.click();
       const url = page.getByLabel('YouTube URL', { exact: true });
       const name = page.getByLabel('Stream name');
@@ -82,13 +82,13 @@ for (const mobile of [true, false]) {
 
       // Renaming must retain the existing player; a URL change must replace only that player.
       const personalFrame = await page.locator('iframe[title="Personal"]').elementHandle();
-      const catalogFrame = await page.locator('iframe[title="CNN Türk"]').elementHandle();
+      const catalogFrame = await page.locator('iframe[title="Bravo"]').elementHandle();
       await editor.click();
       await name.fill('Renamed');
       await save.click();
       expect(await personalFrame.evaluate((element) => element.isConnected)).toBe(true);
       await page.getByRole('button', { name: 'Edit Renamed', exact: true }).click();
-      const existingSrc = await page.locator('iframe[title="CNN Türk"]').getAttribute('src');
+      const existingSrc = await page.locator('iframe[title="Bravo"]').getAttribute('src');
       await url.fill(new URL(existingSrc).pathname.split('/').pop());
       await save.click();
       await expect(page.getByRole('alert')).toHaveText('This stream is already in the playlist');
