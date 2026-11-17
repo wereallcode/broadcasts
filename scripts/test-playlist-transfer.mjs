@@ -4,9 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { createServer } from 'vite';
 
-const data = JSON.parse(
-  await readFile(new URL('../src/data/turkish-streams.json', import.meta.url))
-);
+const data = JSON.parse(await readFile(new URL('../tests/fixtures/catalog.json', import.meta.url)));
 const catalog = data.sources;
 const server = await createServer({
   server: { middlewareMode: true, ws: false },
@@ -29,8 +27,8 @@ try {
       },
     ],
     playlists: [
-      { id: 'default', order: ['cnn-turk', 'custom-original-id'], hidden: ['krt-tv'] },
-      { id: 'personal', name: 'Morning', order: ['custom-original-id', 'cnn-turk'] },
+      { id: 'default', order: ['bravo', 'custom-original-id'], hidden: ['echo'] },
+      { id: 'personal', name: 'Morning', order: ['custom-original-id', 'bravo'] },
     ],
   };
   const serialize = (workspace) => serializePlaylistExport(workspace, catalog, data.name);
@@ -42,9 +40,9 @@ try {
     assert.equal(payload.playlist.name, 'Morning');
     assert.deepEqual(
       payload.playlist.streams.map((s) => s.label),
-      ['Personal', 'CNN Türk']
+      ['Personal', 'Bravo']
     );
-    assert.equal(payload.playlist.streams[1].catalogId, 'cnn-turk');
+    assert.equal(payload.playlist.streams[1].catalogId, 'bravo');
     assert.equal(payload.playlist.streams[0].catalogId, undefined);
     assert.equal(payload.playlist.layout, undefined);
     const defaults = parsePlaylistImport(serialize({ ...saved, activePlaylistId: 'default' }));
@@ -53,7 +51,7 @@ try {
       defaults.streams.map((s) => s.label),
       resolveActiveSources({ ...saved, activePlaylistId: 'default' }, catalog).map((s) => s.label)
     );
-    assert.ok(!defaults.streams.some((s) => s.catalogId === 'krt-tv'));
+    assert.ok(!defaults.streams.some((s) => s.catalogId === 'echo'));
   });
   await test('import appends an independent playlist, resolves name collisions and preserves preferences', () => {
     const snapshot = structuredClone(saved);
@@ -67,7 +65,7 @@ try {
     assert.equal(next.playlists[2].name, 'Morning (2)');
     assert.deepEqual(
       resolveActiveSources(next, catalog).map((s) => s.label),
-      ['Personal', 'CNN Türk']
+      ['Personal', 'Bravo']
     );
     assert.deepEqual(sanitizeWorkspace(JSON.parse(JSON.stringify(next)), catalog), next);
     const edited = editCustomSource(next, catalog, next.playlists[2].order[0], {
@@ -92,14 +90,14 @@ try {
   await test('known catalog streams use current data and missing catalog streams retain portable playback', () => {
     const parsed = parsePlaylistImport(serialize(saved));
     const current = catalog.map((s) =>
-      s.id === 'cnn-turk' ? { ...s, playback: { ...s.playback, videoId: 'dQw4w9WgXcQ' } } : s
+      s.id === 'bravo' ? { ...s, playback: { ...s.playback, videoId: 'dQw4w9WgXcQ' } } : s
     );
     const next = importPlaylist(saved, current, parsed, {
       id: 'imported',
       defaultPlaylistName: data.name,
     });
     assert.equal(resolveActiveSources(next, current)[1].playback.videoId, 'dQw4w9WgXcQ');
-    const missing = catalog.filter((s) => s.id !== 'cnn-turk');
+    const missing = catalog.filter((s) => s.id !== 'bravo');
     const fallback = importPlaylist(saved, missing, parsed, {
       id: 'imported',
       defaultPlaylistName: data.name,

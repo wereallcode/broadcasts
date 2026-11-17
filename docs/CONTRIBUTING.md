@@ -36,6 +36,8 @@ See the `scripts` in [`package.json`](../package.json) for development, testing 
 
 For code changes, run `npm run lint`, `npm test` and `npm run build`, which also validates stream data.
 
+Tests use the fixed catalog in [`tests/fixtures/catalog.json`](../tests/fixtures/catalog.json), so do not reference real default streams in tests.
+
 Install [Playwright's required `Chromium` version](https://playwright.dev/docs/browsers#install-browsers):
 
 ```bash

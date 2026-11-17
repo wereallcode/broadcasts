@@ -14,8 +14,8 @@ const WORKSPACE = {
     },
   ],
   playlists: [
-    { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['krt-tv'] },
-    { id: 'personal', name: 'My List', order: ['custom-dQw4w9WgXcQ', 'cnn-turk'] },
+    { id: 'default', order: ['bravo', 'custom-dQw4w9WgXcQ', 'alpha'], hidden: ['echo'] },
+    { id: 'personal', name: 'My List', order: ['custom-dQw4w9WgXcQ', 'bravo'] },
   ],
 };
 
@@ -68,7 +68,7 @@ for (const base of ['/', '/broadcasts/']) {
       await button.click();
       await expect(page.locator('meta[name="test-build"]')).toHaveAttribute('content', 'b');
       await expect(page.locator('iframe')).toHaveCount(3);
-      await expect(page.locator('iframe[title="CNN Türk"]')).toHaveAttribute('src', /abcdefghijk/);
+      await expect(page.locator('iframe[title="Bravo"]')).toHaveAttribute('src', /abcdefghijk/);
       expect(
         await page.evaluate(() => JSON.parse(localStorage.getItem('broadcasts:workspace')))
       ).toEqual(WORKSPACE);
