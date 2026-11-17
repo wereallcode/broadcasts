@@ -26,10 +26,10 @@
       "playback": { "provider": "youtube", "kind": "video", "videoId": "EqoCJ8BPxtE" }
     },
     {
-      "id": "halk-tv",
-      "label": "Halk TV",
-      "channelUrl": "https://www.youtube.com/@Halktvkanali",
-      "playback": { "provider": "youtube", "kind": "video", "videoId": "8_qAqJdVAuM" }
+      "id": "krt-tv",
+      "label": "KRT TV",
+      "channelUrl": "https://www.youtube.com/@krtcanli",
+      "playback": { "provider": "youtube", "kind": "video", "videoId": "yRBufi6xue8" }
     },
     {
       "id": "sozcu-tv",

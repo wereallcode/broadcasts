@@ -14,7 +14,7 @@ const LEGACY = {
     },
   ],
   playlists: [
-    { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['halk-tv'] },
+    { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['krt-tv'] },
   ],
 };
 

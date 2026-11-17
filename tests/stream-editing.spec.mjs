@@ -15,7 +15,7 @@ const SAVED = {
     },
   ],
   playlists: [
-    { id: 'default', order: [PERSONAL_ID, 'cnn-turk'], hidden: ['halk-tv'] },
+    { id: 'default', order: [PERSONAL_ID, 'cnn-turk'], hidden: ['krt-tv'] },
     { id: 'personal', name: 'Morning', order: [PERSONAL_ID, 'cnn-turk'] },
   ],
 };
