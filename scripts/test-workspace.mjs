@@ -30,7 +30,7 @@ try {
       {
         id: 'default',
         order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'],
-        hidden: ['halk-tv'],
+        hidden: ['krt-tv'],
       },
       { id: 'personal', name: 'My List', order: ['custom-dQw4w9WgXcQ', 'cnn-turk'] },
     ],
@@ -58,7 +58,7 @@ try {
       saved.playlists[0].order
     );
     assert.equal(streams[0].playback.videoId, 'abcdefghijk');
-    assert.ok(!streams.some((source) => source.id === 'halk-tv'));
+    assert.ok(!streams.some((source) => source.id === 'krt-tv'));
     assert.deepEqual(streams[1], saved.customSources[0]);
   });
 } finally {

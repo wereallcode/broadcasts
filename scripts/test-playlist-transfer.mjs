@@ -29,7 +29,7 @@ try {
       },
     ],
     playlists: [
-      { id: 'default', order: ['cnn-turk', 'custom-original-id'], hidden: ['halk-tv'] },
+      { id: 'default', order: ['cnn-turk', 'custom-original-id'], hidden: ['krt-tv'] },
       { id: 'personal', name: 'Morning', order: ['custom-original-id', 'cnn-turk'] },
     ],
   };
@@ -53,7 +53,7 @@ try {
       defaults.streams.map((s) => s.label),
       resolveActiveSources({ ...saved, activePlaylistId: 'default' }, catalog).map((s) => s.label)
     );
-    assert.ok(!defaults.streams.some((s) => s.catalogId === 'halk-tv'));
+    assert.ok(!defaults.streams.some((s) => s.catalogId === 'krt-tv'));
   });
   await test('import appends an independent playlist, resolves name collisions and preserves preferences', () => {
     const snapshot = structuredClone(saved);

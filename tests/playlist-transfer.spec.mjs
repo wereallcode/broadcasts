@@ -16,7 +16,7 @@ const WORKSPACE = {
     },
   ],
   playlists: [
-    { id: 'default', order: ['cnn-turk', 'custom-original-id'], hidden: ['halk-tv'] },
+    { id: 'default', order: ['cnn-turk', 'custom-original-id'], hidden: ['krt-tv'] },
     { id: 'personal', name: 'Morning', order: ['custom-original-id', 'cnn-turk'] },
   ],
 };
@@ -115,7 +115,7 @@ for (const mobile of [true, false]) {
       expect(await readWorkspace(page)).toEqual(imported);
       await page.getByRole('button', { name: 'Toggle menu' }).click();
       await page.getByLabel('Playlist', { exact: true }).selectOption('default');
-      await expect(page.getByRole('button', { name: 'Remove Halk TV', exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Remove KRT TV', exact: true })).toBeVisible();
       await openImport(page);
       await file.setInputFiles({ name: 'again.json', mimeType: 'application/json', buffer });
       await submit.click();

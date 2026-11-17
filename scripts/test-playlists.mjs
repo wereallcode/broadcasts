@@ -41,7 +41,7 @@ try {
       },
     ],
     playlists: [
-      { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['halk-tv'] },
+      { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['krt-tv'] },
     ],
   };
   const ids = (workspace) => resolveActiveSources(workspace, catalog).map((source) => source.id);
@@ -65,7 +65,7 @@ try {
       copyCurrent: true,
     });
     assert.deepEqual(ids(next), ids(saved));
-    assert.ok(!ids(next).includes('halk-tv'));
+    assert.ok(!ids(next).includes('krt-tv'));
     next = reorderActivePlaylist(next, [...ids(next)].reverse());
     next = removeFromActivePlaylist(next, catalog, 'cnn-turk');
     const personalOrder = ids(next);
@@ -206,8 +206,8 @@ try {
   });
 
   await test('browsing restores a hidden default stream without resetting preferences', () => {
-    const next = addSourcesToActivePlaylist(saved, catalog, ['halk-tv']);
-    assert.deepEqual(ids(next), [...ids(saved), 'halk-tv']);
+    const next = addSourcesToActivePlaylist(saved, catalog, ['krt-tv']);
+    assert.deepEqual(ids(next), [...ids(saved), 'krt-tv']);
     assert.deepEqual(next.playlists[0].hidden, []);
     assert.equal(next.layout, saved.layout);
     assert.deepEqual(next.customSources, saved.customSources);

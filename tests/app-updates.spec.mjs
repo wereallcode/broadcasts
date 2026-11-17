@@ -14,7 +14,7 @@ const WORKSPACE = {
     },
   ],
   playlists: [
-    { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['halk-tv'] },
+    { id: 'default', order: ['cnn-turk', 'custom-dQw4w9WgXcQ', 'a-haber'], hidden: ['krt-tv'] },
     { id: 'personal', name: 'My List', order: ['custom-dQw4w9WgXcQ', 'cnn-turk'] },
   ],
 };
